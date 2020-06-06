@@ -1,0 +1,409 @@
+/*!
+
+ =========================================================
+ * Blk• Design System - v1.0.0
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/blk-design-system
+ * Copyright 2018 Creative Tim (http://www.creative-tim.com)
+
+ * Coded by www.creative-tim.com
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
+
+
+var transparent = true;
+var big_image;
+
+var transparentDemo = true;
+var fixedTop = false;
+
+var navbar_initialized,
+  backgroundOrange = false,
+  toggle_initialized = false;
+
+var $datepicker = $('.datepicker');
+var $collapse = $('.navbar .collapse');
+var $html = $('html');
+
+
+
+if(window.screen.availWidth<768){
+  $('#myModal3').modal({
+    focus:true,
+  })
+}
+
+/**
+  * Disable right-click of mouse, F12 key, and save key combinations on page
+  * By Arthur Gareginyan (https://www.arthurgareginyan.com)
+  * For full source code, visit https://mycyberuniverse.com
+  */
+window.onload = function() {
+  document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+  }, false);
+  document.addEventListener("keydown", function(e) {
+  //document.onkeydown = function(e) {
+    // "I" key
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+      disabledEvent(e);
+    }
+    // "J" key
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+      disabledEvent(e);
+    }
+    // "S" key + macOS
+    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+      disabledEvent(e);
+    }
+    // "U" key
+    if (e.ctrlKey && e.keyCode == 85) {
+      disabledEvent(e);
+    }
+    // "F12" key
+    if (event.keyCode == 123) {
+      disabledEvent(e);
+    }
+  }, false);
+  function disabledEvent(e){
+    if (e.stopPropagation){
+      e.stopPropagation();
+    } else if (window.event){
+      window.event.cancelBubble = true;
+    }
+    e.preventDefault();
+    return false;
+  }
+};
+
+
+
+(function() {
+  var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+
+  if (isWindows) {
+    // if we are on windows OS we activate the perfectScrollbar function
+
+
+    if ($('.tab-content .table-responsive').length != 0) {
+
+      $('.table-responsive').each(function() {
+        var ps2 = new PerfectScrollbar($(this)[0]);
+      });
+    }
+
+
+
+    $html.addClass('perfect-scrollbar-on');
+  } else {
+    $html.addClass('perfect-scrollbar-off');
+  }
+})();
+
+$(document).ready(function() {
+  //  Activate the Tooltips
+  $('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
+
+  // Activate Popovers and set color for popovers
+  $('[data-toggle="popover"]').each(function() {
+    color_class = $(this).data('color');
+    $(this).popover({
+      template: '<div class="popover popover-' + color_class + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+    });
+  });
+
+  var squares1 = document.getElementById("square1");
+  var squares2 = document.getElementById("square2");
+  var squares3 = document.getElementById("square3");
+  var squares4 = document.getElementById("square4");
+  var squares5 = document.getElementById("square5");
+  var squares6 = document.getElementById("square6");
+  var squares7 = document.getElementById("square7");
+  var squares8 = document.getElementById("square8");
+  var squares9 = document.getElementById("square9");
+  var squares10 = document.getElementById("square10");
+  var squares11 = document.getElementById("square11");
+  var squares12 = document.getElementById("square12");
+  var text1 = document.getElementById("textfollowfront1")
+  var text2 = document.getElementById("textfollowfront2")
+  var text3 = document.getElementById("textfollowfront3")
+  var text4 = document.getElementById("textfollowmiddle1")
+  var text5 = document.getElementById("textfollowmiddle2")
+  var text6 = document.getElementById("textfollowbehind1")
+  var text7 = document.getElementById("textfollowbehind2")
+  var text8 = document.getElementById("textfollowmain")
+
+
+  if ($('.square').length != 0) {
+
+    $(document).mousemove(function(e) {
+      posX = event.clientX - window.innerWidth / 2;
+      posY = event.clientY - window.innerWidth / 6;
+      // squares1.style.transform = "translateX(" +posX * (0.02) + "px) translateY(" + posY * (0.02) + "px)";
+      squares1.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      squares2.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      squares3.style.transform = "perspective(500px) rotateY(" + posX * 0.05 + "deg) rotateX(" + posY * (-0.05) + "deg)";
+      squares4.style.transform = "perspective(500px) rotateY(" + posX * 0.035 + "deg) rotateX(" + posY * (-0.035) + "deg)";
+      squares5.style.transform = "perspective(500px) rotateY(" + posX * 0.035 + "deg) rotateX(" + posY * (-0.035) + "deg)";
+      squares6.style.transform = "perspective(500px) rotateY(" + posX * 0.035 + "deg) rotateX(" + posY * (-0.035) + "deg)";
+      squares7.style.transform = "perspective(500px) rotateY(" + posX * 0.05 + "deg) rotateX(" + posY * (-0.05) + "deg)";
+      squares8.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      squares9.style.transform = "perspective(500px) rotateY(" + posX * 0.035 + "deg) rotateX(" + posY * (-0.035) + "deg)";
+      squares10.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      squares11.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      squares12.style.transform = "perspective(500px) rotateY(" + posX * 0.02 + "deg) rotateX(" + posY * (-0.02) + "deg)";
+      text1.style.transform = "translateX(" +posX * (0.08) + "px) translateY(" + posY * (0.08) + "px)"
+      text2.style.transform = "translateX(" +posX * (0.08) + "px) translateY(" + posY * (0.08) + "px)"
+      text3.style.transform = "translateX(" +posX * (0.08) + "px) translateY(" + posY * (0.08) + "px)"
+      text4.style.transform = "translateX(" +posX * (0.04) + "px) translateY(" + posY * (0.04) + "px)"
+      text5.style.transform = "translateX(" +posX * (0.04) + "px) translateY(" + posY * (0.04) + "px)"
+      text6.style.transform = "translateX(" +posX * (0.02) + "px) translateY(" + posY * (0.02) + "px)"
+      text7.style.transform = "translateX(" +posX * (0.02) + "px) translateY(" + posY * (0.02) + "px)"
+      text8.style.transform = "translateX(" +posX * (0.02) + "px) translateY(" + posY * (0.02) + "px)"
+    });
+  }
+
+  // var text1 = document.getElementById("textfollow");
+
+  // if ($('.textfollow').length != 0) {
+
+  //   $(document).mousemove(function(e) {
+  //     posX = event.clientX - window.innerWidth / 2;
+  //     posY = event.clientY - window.innerWidth / 6;
+
+  //     text1.style.transform = "translateX(" +posX * (0.02) + "px) translateY(" + posY * (0.02) + "px)";
+  //   });
+  // }
+  // Activate the image for the navbar-collapse
+  blackKit.initNavbarImage();
+
+  $navbar = $('.navbar[color-on-scroll]');
+  scroll_distance = $navbar.attr('color-on-scroll') || 500;
+
+  // Check if we have the class "navbar-color-on-scroll" then add the function to remove the class "navbar-transparent" so it will transform to a plain color.
+
+  if ($('.navbar[color-on-scroll]').length != 0) {
+    blackKit.checkScrollForTransparentNavbar();
+    $(window).on('scroll', blackKit.checkScrollForTransparentNavbar)
+  }
+
+  $('.form-control').on("focus", function() {
+    $(this).parent('.input-group').addClass("input-group-focus");
+  }).on("blur", function() {
+    $(this).parent(".input-group").removeClass("input-group-focus");
+  });
+
+  // Activate bootstrapSwitch
+  $('.bootstrap-switch').each(function() {
+    $this = $(this);
+    data_on_label = $this.data('on-label') || '';
+    data_off_label = $this.data('off-label') || '';
+
+    $this.bootstrapSwitch({
+      onText: data_on_label,
+      offText: data_off_label
+    });
+  });
+
+  // Activate Carousel
+  $('.carousel').carousel({
+    interval: false
+  });
+});
+
+function newFunction() {
+  if (screen.width < 960)
+    px;
+  {
+    alert("dont use it on a mobile phone noob");
+  }
+}
+
+// Methods
+
+function hideNavbarCollapse($this) {
+  $this.addClass('collapsing-out');
+}
+
+function hiddenNavbarCollapse($this) {
+  $this.removeClass('collapsing-out');
+}
+
+
+// Events
+
+if ($collapse.length) {
+  $collapse.on({
+    'hide.bs.collapse': function() {
+      hideNavbarCollapse($collapse);
+    }
+  })
+
+  $collapse.on({
+    'hidden.bs.collapse': function() {
+      hiddenNavbarCollapse($collapse);
+    }
+  })
+}
+
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this,
+      args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    }, wait);
+    if (immediate && !timeout) func.apply(context, args);
+  };
+};
+
+$(document).on('click', '.navbar-toggler', function() {
+  $toggle = $(this);
+
+  if (blackKit.misc.navbar_menu_visible == 1) {
+    $('html').removeClass('nav-open');
+    blackKit.misc.navbar_menu_visible = 0;
+    $('#bodyClick').remove();
+    setTimeout(function() {
+      $toggle.removeClass('toggled');
+    }, 550);
+  } else {
+    setTimeout(function() {
+      $toggle.addClass('toggled');
+    }, 580);
+    div = '<div id="bodyClick"></div>';
+    $(div).appendTo('body').click(function() {
+      $('html').removeClass('nav-open');
+      blackKit.misc.navbar_menu_visible = 0;
+      setTimeout(function() {
+        $toggle.removeClass('toggled');
+        $('#bodyClick').remove();
+      }, 550);
+    });
+
+    $('html').addClass('nav-open');
+    blackKit.misc.navbar_menu_visible = 1;
+  }
+});
+
+blackKit = {
+  misc: {
+    navbar_menu_visible: 0
+  },
+
+  checkScrollForTransparentNavbar: debounce(function() {
+    if ($(document).scrollTop() > scroll_distance) {
+      if (transparent) {
+        transparent = false;
+        $('.navbar[color-on-scroll]').removeClass('navbar-transparent');
+      }
+    } else {
+      if (!transparent) {
+        transparent = true;
+        $('.navbar[color-on-scroll]').addClass('navbar-transparent');
+      }
+    }
+  }, 17),
+
+  initNavbarImage: function() {
+    var $navbar = $('.navbar').find('.navbar-translate').siblings('.navbar-collapse');
+    var background_image = $navbar.data('nav-image');
+
+    if ($(window).width() < 991 || $('body').hasClass('burger-menu')) {
+      if (background_image != undefined) {
+        $navbar.css('background', "url('" + background_image + "')")
+          .removeAttr('data-nav-image')
+          .css('background-size', "cover")
+          .addClass('has-image');
+      }
+    } else if (background_image != undefined) {
+      $navbar.css('background', "")
+        .attr('data-nav-image', '' + background_image + '')
+        .css('background-size', "")
+        .removeClass('has-image');
+    }
+  },
+
+  initDatePicker: function() {
+    if ($datepicker.length != 0) {
+      $datepicker.datetimepicker({
+        icons: {
+          time: "tim-icons icon-watch-time",
+          date: "tim-icons icon-calendar-60",
+          up: "fa fa-chevron-up",
+          down: "fa fa-chevron-down",
+          previous: 'tim-icons icon-minimal-left',
+          next: 'tim-icons icon-minimal-right',
+          today: 'fa fa-screenshot',
+          clear: 'fa fa-trash',
+          close: 'fa fa-remove'
+        }
+      });
+    }
+  },
+
+  initSliders: function() {
+    // Sliders for demo purpose in refine cards section
+    var slider = document.getElementById('sliderRegular');
+    if ($('#sliderRegular').length != 0) {
+
+      noUiSlider.create(slider, {
+        start: 40,
+        connect: [true, false],
+        range: {
+          min: 0,
+          max: 100
+        }
+      });
+    }
+
+    var slider2 = document.getElementById('sliderDouble');
+
+    if ($('#sliderDouble').length != 0) {
+
+      noUiSlider.create(slider2, {
+        start: [20, 60],
+        connect: true,
+        range: {
+          min: 0,
+          max: 100
+        }
+      });
+    }
+  }
+}
+
+
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this,
+      args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    }, wait);
+    if (immediate && !timeout) func.apply(context, args);
+  };
+};
