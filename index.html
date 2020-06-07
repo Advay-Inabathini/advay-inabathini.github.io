@@ -520,10 +520,12 @@
   </script>
 
   <script>
-    console.log("aos initialized")
-    AOS.init({
-      duration:750
-    });
+    if(window.screen.availWidth>=768){
+      console.log("aos initialized")
+      AOS.init({
+        duration:750
+      });
+    }
   </script>
 </body>
 
