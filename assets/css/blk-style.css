@@ -18044,7 +18044,7 @@ enable transform scale */
 
 @media (max-width: 767px) {
   .card-graphic_design {
-    transform:scale(0.5);
+    transform:scale(0.5) !important;
     top:-15%;
   }
   .section-graphic_design .squared{
@@ -18229,7 +18229,7 @@ enable transform scale */
 .section-projects .positioned {
   position: absolute;
   top: 30%;
-  left: 4%
+  /* left: 4% */
 }
 
 .section-projects .positioned .btn,
