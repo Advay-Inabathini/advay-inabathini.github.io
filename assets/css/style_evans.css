@@ -280,7 +280,7 @@ html {
   text-align: center;
 }
 
-@media (min-: width 992px) {
+@media (min-width 992px) {
   .owl-carousel.home-slider .owl-dots {
       display: none;
   }
@@ -288,7 +288,8 @@ html {
 
 @media (max-width: 767.98px) {
   .owl-carousel.home-slider .owl-dots {
-      bottom: 5px;
+      bottom: 100px;
+      transform: scale(0.75);
   }
 }
 
