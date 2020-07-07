@@ -280,20 +280,20 @@ html {
   text-align: center;
 }
 
-@media (min-width 992px) {
+@media (min-width: 992px) {
   .owl-carousel.home-slider .owl-dots {
-      display: none;
+    display: none;
   }
 }
 
 @media (max-width: 767.98px) {
   .owl-carousel.home-slider .owl-dots {
-      bottom: 100px;
-      transform: scale(0.75);
+    bottom: 100px;
+    transform: scale(0.75);
   }
 }
 
-.owl-carousel.home-slider .owl-dots .owl-dot {
+.owl-carousel .home-slider .owl-dots .owl-dot {
   width: 10px;
   height: 10px;
   margin: 5px;
@@ -301,7 +301,7 @@ html {
   background: rgba(255, 255, 255, 0.4);
 }
 
-.owl-carousel.home-slider .owl-dots .owl-dot.active {
+.owl-carousel .home-slider .owl-dots .owl-dot.active {
   background: #fff;
 }
 

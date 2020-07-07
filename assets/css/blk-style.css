@@ -17553,7 +17553,7 @@ hr.line-deafult {
   bottom: -150px;
   left: -100px;
   opacity: 0.3;
-  animation-duration: 5s;
+  animation-duration: 4s;
 }
 
 .section-aboutme .square-2 {
@@ -17564,7 +17564,7 @@ hr.line-deafult {
   bottom: 300px;
   right: -100px;
   opacity: 0.1;
-  animation-duration: 8s;
+  animation-duration: 3s;
 }
 
 .section-aboutme .square-3 {
@@ -17575,7 +17575,7 @@ hr.line-deafult {
   top: 325px;
   right:850px;
   /* left: 700px; */
-  animation-duration: 5s;
+  animation-duration: 2s;
   z-index:-1;
 }
 
@@ -17587,7 +17587,7 @@ hr.line-deafult {
   top: -200px;
   right: 300px;
   opacity: 0.5;
-  animation-duration: 9s;
+  animation-duration: 5s;
 }
 
 
@@ -17609,7 +17609,7 @@ hr.line-deafult {
   bottom: 100px;
   right: 400px;
   opacity: 0.8;
-  animation-duration: 9s;
+  animation-duration: 3s;
 }
 
 
@@ -17621,7 +17621,7 @@ hr.line-deafult {
   top: 80px;
   left: 100px;
   /* opacity: 0.8; */
-  animation-duration: 9s;
+  animation-duration: 5s;
 }
 
 
