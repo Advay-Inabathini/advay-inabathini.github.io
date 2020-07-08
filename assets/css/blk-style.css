@@ -18064,6 +18064,7 @@ enable transform scale */
   .section-graphic_design .graphic_design-bg {
     right: 300px !important;
     bottom:600px ;
+    top: auto;
   }
 }
 
@@ -18080,6 +18081,11 @@ enable transform scale */
 
   .section-graphic_design .square{
     display: none;
+  }
+
+  .section-graphic_design .graphic_design-bg{
+    right: 600px !important;
+    bottom: 300px;
   }
 
 }
