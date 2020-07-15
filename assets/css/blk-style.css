@@ -669,36 +669,6 @@ pre code {
   text-align:center;
 }
 
-.column {
-  -ms-flex: 16.6%; /* IE10 */
-  flex: 16.6%;
-  max-width: 16.6%;
-  padding: 0.75rem;
-}
-
-.column img {
-  margin-top: 0.75rem;
-  margin-bottom:0.75rem;
-  vertical-align: middle;
-  width: 100%;
-  filter:brightness(1);
-  /* scale:1.0; */
-  transition:1s cubic-bezier(.08,.82,.17,1);
-}
-
-.column img:hover{
-  filter:brightness(0.4);
-  transform:scale(0.98);
-
-}
-
-@media screen and (max-width: 1000px) { 
-  .column {
-    -ms-flex: 33%%;
-    flex: 33%;
-    max-width: 33%;
-  }
-} 
 /* 
 @media screen and (max-width: 800px) { 
   .column {
@@ -17781,6 +17751,34 @@ ul li:hover .xtralargehovertext{
     left:1.5%;
   }
 }
+
+.section-photography .col-lg-2, .section-photography .col-4 {
+  padding: 0.75rem;
+}
+
+.section-photography .row img {
+  margin-top: 0.75rem;
+  margin-bottom:0.75rem;
+  vertical-align: middle;
+  width: 100%;
+  filter:brightness(1);
+  /* scale:1.0; */
+  transition:1s cubic-bezier(.08,.82,.17,1);
+}
+
+.section-photography .row img:hover{
+  filter:brightness(0.4);
+  transform:scale(0.98);
+
+}
+
+@media screen and (max-width: 1000px) { 
+  .column {
+    -ms-flex: 33%%;
+    flex: 33%;
+    max-width: 33%;
+  }
+} 
 /* graphic design section */
 /* from here */
 .section-graphic_design .graphic_design-bg {
