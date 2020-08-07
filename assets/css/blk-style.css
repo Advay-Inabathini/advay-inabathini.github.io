@@ -17458,8 +17458,9 @@ hr.line-deafult {
 }
 
 .section {
-  padding: 70px 0;
+  /* padding: 70px 0; */
   position: relative;
+  scroll-margin: 55px;
 }
 
 .section .row+.category {
