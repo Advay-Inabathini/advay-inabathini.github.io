@@ -110,6 +110,11 @@ body {
   outline: 0 !important;
 }
 
+section {
+  overflow: hidden;
+  scroll-margin: 55px;
+}
+
 hr {
   box-sizing: content-box;
   height: 0;
@@ -659,6 +664,10 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.wrapper {
+  height: 100vh;
 }
 
 .row {
@@ -17460,7 +17469,6 @@ hr.line-deafult {
 .section {
   /* padding: 70px 0; */
   position: relative;
-  scroll-margin: 55px;
 }
 
 .section .row+.category {
