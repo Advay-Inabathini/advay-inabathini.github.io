@@ -3,47 +3,31 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { photos } from '../data/landingPagePhotos.js';
 
-// Use import.meta.glob to dynamically import all images from the specified directory.
-// This allows the Astro <Image> component to optimize them.
+// Dynamically import all images from the placeholders directory.
 const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/placeholders/*.{jpg,jpeg,png,gif}');
-
-// New grid spans to match the 10-item layout from the design.
-// This creates a more dynamic and asymmetrical masonry effect.
-const gridSpans = [
-  'col-span-2 row-span-2', // Image 1
-  'col-span-1 row-span-1', // Image 2
-  'col-span-1 row-span-2', // Image 3
-  'col-span-1 row-span-1', // Image 4
-  'col-span-2 row-span-1', // Image 5
-  'col-span-1 row-span-2', // Image 6
-  'col-span-1 row-span-1', // Image 7
-  'col-span-2 row-span-2', // Image 8
-  'col-span-1 row-span-1', // Image 9
-  'col-span-1 row-span-1', // Image 10
-];
 ---
 
-<div class="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4">
+<div class="columns-2 md:columns-3 lg:columns-5 gap-4">
   {
-    photos.map((photo, index) => {
+    photos.map((photo) => {
       // Construct the expected path for the image module lookup.
-      // Note: Correcting the typo 'placeaholders' to 'placeholders' from the data file.
-      const imagePath = `/src/assets${photo.thumbnailSrc.replace('placeaholders', 'placeholders')}`;
+      const imagePath = `/src/assets${photo.thumbnailSrc}`;
       
       if (!imageModules[imagePath]) {
-        // Log a warning if a specific image isn't found, but don't break the page.
-        console.warn(`"${imagePath}" does not exist in the image glob.`);
+        // Log a warning if a specific image isn't found.
+        console.warn(`Image not found: "${imagePath}"`);
         return null;
       }
 
       return (
-        <div class:list={[gridSpans[index % gridSpans.length], "rounded-lg overflow-hidden"]}>
+        <figure class="break-inside-avoid mb-4 rounded-lg overflow-hidden">
           <Image 
             src={imageModules[imagePath]()} 
             alt={photo.alt}
-            class="w-full h-full object-cover"
+            layout="full-width"
+            class="w-full h-auto"
           />
-        </div>
+        </figure>
       )
     })
   }

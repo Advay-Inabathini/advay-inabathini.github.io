@@ -33,7 +33,7 @@ export const photos = [
     id: 4,
     title: "Product Shot",
     src: "/images/placeholders/pic-4.jpg",
-    thumbnailSrc: "/images/placeaholders/thumb-4.jpg",
+    thumbnailSrc: "/images/placeholders/thumb-4.jpg",
     alt: "A clean product shot on a white background.",
     genres: ["commercial", "product"],
     isFeatured: false,
