@@ -10,29 +10,28 @@ import Footer from '../components/Footer.astro';
 >
   <div class="bg-black text-white">
     <!-- 
-      Hero Section: 
-      This section fills the viewport and contains the main intro and navigation.
-      `flex` and `justify-center` are used to vertically center the content.
+      Hero Section:
+      This section now uses a relative container to position the intro text and nav buttons independently.
     -->
-    <section class="container mx-auto px-4 md:px-8 flex flex-col justify-center min-h-screen">
-      <div class="max-w-md">
-        <!-- IntroText -->
-        <div class="font-mono text-xl mb-8 space-y-2">
-          <p>Hello there,</p>
-          <p>I am Advay Inabathini..</p>
-          <p>How can I help you?</p>
-        </div>
-        
-        <!-- PrimaryNav -->
+    <section class="container mx-auto px-4 md:px-8 min-h-screen relative flex items-center justify-center">
+      <!-- IntroText -->
+      <div class="absolute top-32 left-32 font-mono text-lg space-y-2">
+        <p>Hello there,</p>
+        <p>I am Advay Inabathini..</p>
+        <p>I passionately partake in the following :)</p>
+      </div>
+      
+      <!-- PrimaryNav -->
+      <div class="w-full max-w-3xl">
         <PrimaryNav />
       </div>
     </section>
 
     <!-- 
-      Grid Section: 
-      This section displays the decorative photo grid below the hero.
+      Grid Section:
+      A negative top margin is used to pull the grid up, creating the overlap effect.
     -->
-    <section class="container mx-auto px-4 md:px-8 py-16">
+    <section class="container mx-auto pb-16 -mt-36 relative">
       <LandingPageGrid />
     </section>
   </div>

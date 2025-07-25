@@ -20,7 +20,7 @@ const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/i
       }
 
       return (
-        <figure class="break-inside-avoid mb-4 rounded-lg overflow-hidden">
+        <figure class="break-inside-avoid mb-4 overflow-hidden">
           <Image 
             src={imageModules[imagePath]()} 
             alt={photo.alt}

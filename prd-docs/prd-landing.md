@@ -26,7 +26,7 @@ Content:
 
 Hello there,
 I am Advay Inabathini...
-How can I help you?
+I passionately partake in the following:
 Design Specs:
 
 Typography: Adhere to Body Text token from prd-main.md. (Tailwind: text-base text-white).
