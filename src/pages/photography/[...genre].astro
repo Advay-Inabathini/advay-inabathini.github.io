@@ -11,13 +11,21 @@ import selfPortrait from '/src/assets/images/self-portrait.jpg';
 export async function getStaticPaths() {
   const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 
-  return allGenres.map(genre => {
+  const genrePaths = allGenres.map(genre => {
     return {
       params: { genre: genre.toLowerCase() },
     };
   });
+
+  // Add the path for the main photography page
+  return [
+    { params: { genre: undefined } },
+    ...genrePaths
+  ];
 }
 
+// If the URL is /photography, genre will be undefined.
+// If the URL is /photography/sports, genre will be "sports".
 const { genre } = Astro.params;
 
 // Get all images processed by Astro
@@ -39,8 +47,10 @@ const allPhotosWithPaths = await Promise.all(
     return photo;
   })
 );
+
+const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Photography` : "Photography";
 ---
-<MainLayout title={`${genre} Photography | Advay Inabathini`} description={`A collection of ${genre} photography by Advay Inabathini.`}>
+<MainLayout title={`${pageTitle} | Advay Inabathini`} description={`A collection of ${pageTitle} by Advay Inabathini.`}>
   <div id="photography-page" class="bg-black text-white min-h-screen">
     
     <header class="container mx-auto px-4 md:px-8 py-16 md:py-24">
@@ -63,7 +73,7 @@ const allPhotosWithPaths = await Promise.all(
           <Image
             src={selfPortrait}
             alt="A portrait of Advay Inabathini with his camera."
-            class="rounded-lg shadow-lg w-full max-w-sm"
+            class="w-full max-w-sm shadow-lg"
             widths={[200, 400, 800]}
             sizes="(max-width: 768px) 100vw, 400px"
           />

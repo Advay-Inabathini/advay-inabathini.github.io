@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -20,7 +21,8 @@ const { title, description } = Astro.props;
 		<title>{title}</title>
 		<ClientRouter />
 	</head>
-	<body class="font-mono">
+	<body class="font-mono bg-black text-white">
 		<slot />
+		<Footer />
 	</body>
 </html> 

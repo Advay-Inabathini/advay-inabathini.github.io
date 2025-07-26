@@ -42,32 +42,42 @@ const { photos } = Astro.props;
 
     if (!slideshow || !closeBtn || !prevBtn || !nextBtn || !imageEl || !titleEl || !exifEl || !photoGrid) return;
 
+    let currentSlideshowPhotos = [];
     let currentIndex = 0;
 
-    function showPhoto(id) {
-      const photo = photos.find(p => p.id === id);
+    function updateDisplay(photo) {
       if (!photo) return;
-
-      currentIndex = photos.indexOf(photo);
-
-      imageEl.src = photo.src; // Use the correct path passed from the page
+      imageEl.src = photo.src;
       imageEl.alt = photo.alt;
       titleEl.textContent = photo.title;
       exifEl.textContent = photo.exif;
+    }
 
+    function openSlideshow(startId) {
+      // 1. Get the list of currently visible photos from the grid
+      const visibleButtons = photoGrid.querySelectorAll('.photo-thumbnail-btn');
+      const visiblePhotoIds = Array.from(visibleButtons).map(btn => parseInt(btn.dataset.photoId, 10));
+      
+      const photosById = new Map(photos.map(p => [p.id, p]));
+      currentSlideshowPhotos = visiblePhotoIds.map(id => photosById.get(id)).filter(Boolean);
+
+      // 2. Find the starting photo and its index in the visible list
+      currentIndex = currentSlideshowPhotos.findIndex(p => p.id === startId);
+      if (currentIndex === -1) return; // Should not happen if clicked from grid
+
+      // 3. Update the display and show the slideshow
+      updateDisplay(currentSlideshowPhotos[currentIndex]);
       slideshow.classList.remove('hidden');
     }
 
     function showNext() {
-      currentIndex = (currentIndex + 1) % photos.length;
-      const nextPhoto = photos[currentIndex];
-      showPhoto(nextPhoto.id);
+      currentIndex = (currentIndex + 1) % currentSlideshowPhotos.length;
+      updateDisplay(currentSlideshowPhotos[currentIndex]);
     }
 
     function showPrev() {
-      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
-      const prevPhoto = photos[currentIndex];
-      showPhoto(prevPhoto.id);
+      currentIndex = (currentIndex - 1 + currentSlideshowPhotos.length) % currentSlideshowPhotos.length;
+      updateDisplay(currentSlideshowPhotos[currentIndex]);
     }
 
     function closeSlideshow() {
@@ -77,7 +87,7 @@ const { photos } = Astro.props;
     photoGrid.addEventListener('click', (e) => {
       const target = e.target.closest('.photo-thumbnail-btn');
       if (target && target.dataset.photoId) {
-        showPhoto(parseInt(target.dataset.photoId));
+        openSlideshow(parseInt(target.dataset.photoId, 10));
       }
     });
 
