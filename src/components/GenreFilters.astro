@@ -11,7 +11,29 @@ const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 </div>
 
 <script>
-  // ... script for filtering logic will be added here
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterContainer = document.querySelector('#genre-filters');
+    if (!filterContainer) return;
+
+    filterContainer.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'BUTTON') return;
+
+      const genre = target.dataset.genre;
+      if (!genre) return;
+
+      // Dispatch a custom event with the selected genre.
+      // The page will listen for this to update the photo grid.
+      const filterChangeEvent = new CustomEvent('filterchange', {
+        detail: { genre }
+      });
+      document.dispatchEvent(filterChangeEvent);
+
+      // Update the active button state
+      filterContainer.querySelector('.active')?.classList.remove('active');
+      target.classList.add('active');
+    });
+  });
 </script>
 
 <style>

@@ -13,6 +13,7 @@ Styling: Tailwind CSS
 Page Transitions: Astro View Transitions
 
 Image Handling: Astro Image Component (<Image />)
+No rounded edges
 
 Version Control: Git & GitHub
 

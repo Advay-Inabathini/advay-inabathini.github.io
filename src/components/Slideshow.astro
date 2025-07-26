@@ -31,6 +31,72 @@ const { photos } = Astro.props;
 
 <script define:vars={{ photos }}>
   document.addEventListener('DOMContentLoaded', () => {
-    // slideshow logic will be added here
+    const slideshow = document.querySelector('#slideshow');
+    const closeBtn = document.querySelector('#slideshow-close');
+    const prevBtn = document.querySelector('#slideshow-prev');
+    const nextBtn = document.querySelector('#slideshow-next');
+    const imageEl = document.querySelector('#slideshow-image');
+    const titleEl = document.querySelector('#slideshow-title');
+    const exifEl = document.querySelector('#slideshow-exif');
+    const photoGrid = document.querySelector('#photo-grid');
+
+    if (!slideshow || !closeBtn || !prevBtn || !nextBtn || !imageEl || !titleEl || !exifEl || !photoGrid) return;
+
+    let currentIndex = 0;
+
+    function showPhoto(id) {
+      const photo = photos.find(p => p.id === id);
+      if (!photo) return;
+
+      currentIndex = photos.indexOf(photo);
+
+      imageEl.src = photo.src; // Use the correct path passed from the page
+      imageEl.alt = photo.alt;
+      titleEl.textContent = photo.title;
+      exifEl.textContent = photo.exif;
+
+      slideshow.classList.remove('hidden');
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % photos.length;
+      const nextPhoto = photos[currentIndex];
+      showPhoto(nextPhoto.id);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+      const prevPhoto = photos[currentIndex];
+      showPhoto(prevPhoto.id);
+    }
+
+    function closeSlideshow() {
+      slideshow.classList.add('hidden');
+    }
+
+    photoGrid.addEventListener('click', (e) => {
+      const target = e.target.closest('.photo-thumbnail-btn');
+      if (target && target.dataset.photoId) {
+        showPhoto(parseInt(target.dataset.photoId));
+      }
+    });
+
+    closeBtn.addEventListener('click', closeSlideshow);
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !slideshow.classList.contains('hidden')) {
+        closeSlideshow();
+      }
+    });
+
+    // Close by clicking background
+    slideshow.addEventListener('click', (e) => {
+      if (e.target === slideshow) {
+        closeSlideshow();
+      }
+    });
   });
 </script> 

@@ -41,7 +41,7 @@ const allImages = await import.meta.glob<{ default: ImageMetadata }>(
           data-photo-id={photo.id}
           class="photo-thumbnail-btn block mb-4 break-inside-avoid"
         >
-          <Image src={image.default} alt={photo.alt} class="w-full h-auto rounded-lg shadow-md" />
+          <Image src={image.default} alt={photo.alt} class="w-full h-auto shadow-md" />
         </button>
       );
     })
