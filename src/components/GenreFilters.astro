@@ -1,0 +1,27 @@
+---
+import { photos } from '../data/photographyPhotos.js';
+
+const allGenres = [...new Set(photos.flatMap(p => p.genres))];
+---
+<div id="genre-filters" class="flex justify-center space-x-2 md:space-x-4 mb-8">
+  <button data-genre="featured" class="filter-btn active">Featured</button>
+  {allGenres.map(genre => (
+    <button data-genre={genre.toLowerCase()} class="filter-btn">{genre}</button>
+  ))}
+</div>
+
+<script>
+  // ... script for filtering logic will be added here
+</script>
+
+<style>
+  .filter-btn {
+    @apply bg-transparent border border-gray-600 text-white py-2 px-4 rounded-full transition-colors duration-300;
+  }
+  .filter-btn:hover {
+    @apply bg-gray-700;
+  }
+  .filter-btn.active {
+    @apply bg-white text-black font-bold;
+  }
+</style> 

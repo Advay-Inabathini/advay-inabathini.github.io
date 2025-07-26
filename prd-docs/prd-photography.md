@@ -15,8 +15,7 @@ JavaScript
 {
   id: Number,           // Unique numeric ID, e.g., 1
   title: String,        // Title of the photo/shoot, e.g., "Onam Celebrations"
-  src: String,          // Filepath to the high-resolution image for the slideshow, e.g., "/images/photos/onam-celebrations.jpg"
-  thumbnailSrc: String, // Filepath to the smaller, optimized image for the grid view
+  src: String,          // Filepath to the image, relative to the project root e.g., "/src/assets/images/photography/onam-celebrations.jpg"
   alt: String,          // Descriptive alt text for accessibility
   genres: [String],     // An array of genre tags, e.g., ['portrait', 'event']
   isFeatured: Boolean,  // `true` if the photo should appear in the default "Featured" view

@@ -1,0 +1,20 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PhotographyHeader from '../../components/PhotographyHeader.astro';
+import GenreFilters from '../../components/GenreFilters.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import Slideshow from '../../components/Slideshow.astro';
+import { photos } from '../../data/photographyPhotos.js';
+
+const featuredPhotos = photos.filter(p => p.isFeatured);
+---
+<MainLayout title="Photography | Advay Inabathini" description="A collection of photography by Advay Inabathini.">
+  <div id="photography-page" class="bg-black text-white min-h-screen">
+    <PhotographyHeader />
+    <main class="container mx-auto px-4 md:px-8 py-8">
+      <GenreFilters client:load />
+      <PhotoGrid photos={featuredPhotos} />
+    </main>
+    <Slideshow client:load photos={photos} />
+  </div>
+</MainLayout> 
