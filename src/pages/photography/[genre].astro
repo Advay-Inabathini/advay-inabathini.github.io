@@ -8,6 +8,18 @@ import Slideshow from '../../components/Slideshow.astro';
 import { photos } from '../../data/photographyPhotos.js';
 import selfPortrait from '/src/assets/images/self-portrait.jpg';
 
+export async function getStaticPaths() {
+  const allGenres = [...new Set(photos.flatMap(p => p.genres))];
+
+  return allGenres.map(genre => {
+    return {
+      params: { genre: genre.toLowerCase() },
+    };
+  });
+}
+
+const { genre } = Astro.params;
+
 // Get all images processed by Astro
 const allImportedImages = await import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/images/photography/*.jpg'
@@ -21,14 +33,14 @@ const allPhotosWithPaths = await Promise.all(
       const resolvedImage = await importer();
       return {
         ...photo,
-        src: resolvedImage.default.src, // Use the processed path
+        src: resolvedImage.default.src,
       };
     }
-    return photo; // Should not happen if images are placed correctly
+    return photo;
   })
 );
 ---
-<MainLayout title="Photography | Advay Inabathini" description="A collection of photography by Advay Inabathini.">
+<MainLayout title={`${genre} Photography | Advay Inabathini`} description={`A collection of ${genre} photography by Advay Inabathini.`}>
   <div id="photography-page" class="bg-black text-white min-h-screen">
     
     <header class="container mx-auto px-4 md:px-8 py-16 md:py-24">
@@ -51,7 +63,7 @@ const allPhotosWithPaths = await Promise.all(
           <Image
             src={selfPortrait}
             alt="A portrait of Advay Inabathini with his camera."
-            class="w-full max-w-sm shadow-lg"
+            class="rounded-lg shadow-lg w-full max-w-sm"
             widths={[200, 400, 800]}
             sizes="(max-width: 768px) 100vw, 400px"
           />
@@ -61,8 +73,8 @@ const allPhotosWithPaths = await Promise.all(
 
     <main class="container mx-auto px-4 md:px-8 py-8">
       <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">Photography Portfolio</h2>
-      <GenreFilters client:load />
-      <PhotoGrid photos={photos} />
+      <GenreFilters client:load activeFilter={genre} />
+      <PhotoGrid photos={photos} activeFilter={genre} />
     </main>
     <Slideshow client:load photos={allPhotosWithPaths} />
   </div>

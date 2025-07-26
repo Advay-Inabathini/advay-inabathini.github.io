@@ -16,9 +16,17 @@ interface Photo {
 
 interface Props {
   photos: Photo[];
+  activeFilter?: string;
 }
 
-const { photos } = Astro.props;
+const { photos, activeFilter } = Astro.props;
+
+let initialPhotos = photos;
+if (activeFilter) {
+  initialPhotos = photos.filter(p => p.genres.some(g => g.toLowerCase() === activeFilter));
+} else {
+  initialPhotos = photos.filter(p => p.isFeatured);
+}
 
 // Dynamically import all images from the directory.
 // This allows Astro's Image component to optimize them at build time.
@@ -29,7 +37,7 @@ const allImages = await import.meta.glob<{ default: ImageMetadata }>(
 
 <div id="photo-grid" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
   {
-    photos.map(async (photo) => {
+    initialPhotos.map(async (photo) => {
       const imageImporter = allImages[photo.src];
       if (!imageImporter) {
         console.warn(`Image not found for ${photo.src}`);

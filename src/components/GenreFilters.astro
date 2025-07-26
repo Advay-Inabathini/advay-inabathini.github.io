@@ -1,12 +1,18 @@
 ---
 import { photos } from '../data/photographyPhotos.js';
 
+interface Props {
+  activeFilter?: string;
+}
+
+const { activeFilter } = Astro.props;
+
 const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 ---
 <div id="genre-filters" class="flex justify-center space-x-2 md:space-x-4 mb-8">
-  <button data-genre="featured" class="filter-btn active">Featured</button>
+  <button data-genre="featured" class:list={["filter-btn", { active: !activeFilter }]}>Featured</button>
   {allGenres.map(genre => (
-    <button data-genre={genre.toLowerCase()} class="filter-btn">{genre}</button>
+    <button data-genre={genre.toLowerCase()} class:list={["filter-btn", { active: activeFilter === genre.toLowerCase() }]}>{genre}</button>
   ))}
 </div>
 
