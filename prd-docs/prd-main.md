@@ -52,6 +52,11 @@ Styling will be implemented exclusively with Tailwind CSS utility classes applie
 
 Custom CSS via <style> tags should be avoided unless absolutely necessary for a complex, unique element.
 
+Button Styling: All buttons should follow a consistent design pattern.
+Default State: Transparent background, white border, white text.
+Hover State: White background, black text.
+Active State: White background, black text, bold font.
+
 ## 3.5. File & Code Conventions:
 
 Component Files: PascalCase (e.g., PrimaryNav.astro).

@@ -9,7 +9,7 @@ const { activeFilter } = Astro.props;
 
 const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 ---
-<div id="genre-filters" class="flex justify-center space-x-2 md:space-x-4 mb-8">
+<div id="genre-filters" class="flex flex-wrap justify-start gap-x-4 gap-y-2 mb-8">
   <button data-genre="featured" class:list={["filter-btn", { active: !activeFilter }]}>Featured</button>
   {allGenres.map(genre => (
     <button data-genre={genre.toLowerCase()} class:list={["filter-btn", { active: activeFilter === genre.toLowerCase() }]}>{genre}</button>
@@ -44,10 +44,10 @@ const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 
 <style>
   .filter-btn {
-    @apply bg-transparent border border-gray-600 text-white py-2 px-4 rounded-full transition-colors duration-300;
+    @apply bg-transparent border border-white text-white py-1 px-4 transition-colors duration-300;
   }
   .filter-btn:hover {
-    @apply bg-gray-700;
+    @apply bg-white text-black;
   }
   .filter-btn.active {
     @apply bg-white text-black font-bold;

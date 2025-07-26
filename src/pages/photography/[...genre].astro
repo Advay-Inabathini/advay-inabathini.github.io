@@ -55,12 +55,12 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
     
     <header class="container mx-auto px-4 md:px-8 py-16 md:py-24">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div class="font-mono text-left space-y-6">
+        <div class="font-mono text-left space-y-6 text-lg">
           <div>
-            <p class="text-lg">Hello there,</p>
-            <p class="text-lg">I am Advay Inabathini</p>
+            <p>Hello there,</p>
+            <p>I am Advay Inabathini</p>
           </div>
-          <div class="text-gray-300 text-base space-y-4">
+          <div class="space-y-4">
             <p>
               Photography has been a passion for me. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
@@ -73,7 +73,7 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
           <Image
             src={selfPortrait}
             alt="A portrait of Advay Inabathini with his camera."
-            class="w-full max-w-sm shadow-lg"
+            class="w-full max-w-sm"
             widths={[200, 400, 800]}
             sizes="(max-width: 768px) 100vw, 400px"
           />
@@ -81,10 +81,14 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
       </div>
     </header>
 
-    <main class="container mx-auto px-4 md:px-8 py-8">
-      <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">Photography Portfolio</h2>
-      <GenreFilters client:load activeFilter={genre} />
-      <PhotoGrid photos={photos} activeFilter={genre} />
+    <main class="py-8">
+      <div class="container mx-auto px-4 md:px-8">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">Photography Portfolio</h2>
+        <GenreFilters client:load activeFilter={genre} />
+      </div>
+      <div class="px-4 md:px-8">
+        <PhotoGrid photos={photos} activeFilter={genre} />
+      </div>
     </main>
     <Slideshow client:load photos={allPhotosWithPaths} />
   </div>
