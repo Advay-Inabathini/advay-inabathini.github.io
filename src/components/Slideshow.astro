@@ -13,26 +13,36 @@ interface Props {
 
 const { photos } = Astro.props;
 ---
-<div id="slideshow" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
-  <div class="relative max-w-4xl max-h-full p-4">
-    <button id="slideshow-close" class="absolute top-0 right-0 mt-4 mr-4 text-white text-3xl z-10">&times;</button>
+<div id="slideshow" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center hidden z-50">
+  <div class="relative max-w-5xl max-h-full p-4 flex flex-col items-center">
     
-    <img id="slideshow-image" src="" alt="" class="max-w-full max-h-[80vh] object-contain">
+    <img id="slideshow-image" src="" alt="" class="max-w-full max-h-[85vh] object-contain">
     
     <div id="slideshow-caption" class="text-center text-white p-4">
       <h3 id="slideshow-title" class="text-xl font-bold"></h3>
       <p id="slideshow-exif" class="text-sm text-gray-400"></p>
     </div>
 
-    <button id="slideshow-prev" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl p-4">&lt;</button>
-    <button id="slideshow-next" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl p-4">&gt;</button>
+    <div class="flex space-x-4 mt-2">
+        <button id="slideshow-prev" class="slideshow-nav-btn">&lt;</button>
+        <button id="slideshow-next" class="slideshow-nav-btn">&gt;</button>
+    </div>
   </div>
 </div>
+
+<style>
+  .slideshow-nav-btn {
+    @apply bg-transparent border border-white text-white w-8 h-8 flex items-center justify-center
+           text-lg font-mono transition-colors duration-300;
+  }
+  .slideshow-nav-btn:hover {
+    @apply bg-white text-black;
+  }
+</style>
 
 <script define:vars={{ photos }}>
   document.addEventListener('DOMContentLoaded', () => {
     const slideshow = document.querySelector('#slideshow');
-    const closeBtn = document.querySelector('#slideshow-close');
     const prevBtn = document.querySelector('#slideshow-prev');
     const nextBtn = document.querySelector('#slideshow-next');
     const imageEl = document.querySelector('#slideshow-image');
@@ -40,7 +50,7 @@ const { photos } = Astro.props;
     const exifEl = document.querySelector('#slideshow-exif');
     const photoGrid = document.querySelector('#photo-grid');
 
-    if (!slideshow || !closeBtn || !prevBtn || !nextBtn || !imageEl || !titleEl || !exifEl || !photoGrid) return;
+    if (!slideshow || !prevBtn || !nextBtn || !imageEl || !titleEl || !exifEl || !photoGrid) return;
 
     let currentSlideshowPhotos = [];
     let currentIndex = 0;
@@ -91,14 +101,19 @@ const { photos } = Astro.props;
       }
     });
 
-    closeBtn.addEventListener('click', closeSlideshow);
     nextBtn.addEventListener('click', showNext);
     prevBtn.addEventListener('click', showPrev);
 
-    // Close with Escape key
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !slideshow.classList.contains('hidden')) {
+      if (slideshow.classList.contains('hidden')) return; // Do nothing if slideshow is hidden
+
+      if (e.key === 'Escape') {
         closeSlideshow();
+      } else if (e.key === 'ArrowLeft') {
+        showPrev();
+      } else if (e.key === 'ArrowRight') {
+        showNext();
       }
     });
 

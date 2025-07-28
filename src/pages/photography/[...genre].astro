@@ -87,7 +87,9 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
         <GenreFilters client:load activeFilter={genre} />
       </div>
       <div class="px-4 md:px-8">
-        <PhotoGrid photos={photos} activeFilter={genre} />
+        <div id="photo-grid-wrapper">
+            <PhotoGrid photos={photos} activeFilter={genre} />
+        </div>
       </div>
     </main>
     <Slideshow client:load photos={allPhotosWithPaths} />
@@ -95,8 +97,7 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
 </MainLayout>
 
 <script define:vars={{ allPhotos: allPhotosWithPaths }}>
-  document.addEventListener('filterchange', (e) => {
-    const genre = e.detail.genre;
+  function updateGrid(genre) {
     const photoGrid = document.querySelector('#photo-grid');
     if (!photoGrid) return;
 
@@ -122,5 +123,18 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
       btn.appendChild(img);
       photoGrid.appendChild(btn);
     }
+  }
+
+  document.addEventListener('filterchange', (e) => {
+    const genre = e.detail.genre;
+    
+    // Check for View Transitions support
+    if (!document.startViewTransition) {
+      updateGrid(genre);
+      return;
+    }
+
+    // Use a View Transition to update the DOM
+    document.startViewTransition(() => updateGrid(genre));
   });
 </script> 

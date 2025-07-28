@@ -24,5 +24,8 @@ const { title, description } = Astro.props;
 	<body class="font-mono bg-black text-white">
 		<slot />
 		<Footer />
+		<script is:inline>
+			document.addEventListener('contextmenu', event => event.preventDefault());
+		</script>
 	</body>
 </html> 
