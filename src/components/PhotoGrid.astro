@@ -1,0 +1,57 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+// This defines the shape of the 'photo' object that this component expects.
+// It matches the schema from src/data/photographyPhotos.js
+interface Photo {
+  id: number;
+  title: string;
+  src: string;
+  alt: string;
+  genres: string[];
+  isFeatured: boolean;
+  exif: string;
+}
+
+interface Props {
+  photos: Photo[];
+  activeFilter?: string;
+}
+
+const { photos, activeFilter } = Astro.props;
+
+let initialPhotos = photos;
+if (activeFilter) {
+  initialPhotos = photos.filter(p => p.genres.some(g => g.toLowerCase() === activeFilter));
+} else {
+  initialPhotos = photos.filter(p => p.isFeatured);
+}
+
+// Dynamically import all images from the directory.
+// This allows Astro's Image component to optimize them at build time.
+const allImages = await import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/photography/*.jpg"
+);
+---
+
+<div id="photo-grid" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
+  {
+    initialPhotos.map(async (photo) => {
+      const imageImporter = allImages[photo.src];
+      if (!imageImporter) {
+        console.warn(`Image not found for ${photo.src}`);
+        return null; 
+      }
+      const image = await imageImporter();
+      return (
+        <button
+          data-photo-id={photo.id}
+          class="photo-thumbnail-btn block mb-4 break-inside-avoid"
+        >
+          <Image src={image.default} alt={photo.alt} class="w-full h-auto shadow-md" />
+        </button>
+      );
+    })
+  }
+</div> 

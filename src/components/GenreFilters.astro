@@ -1,0 +1,55 @@
+---
+import { photos } from '../data/photographyPhotos.js';
+
+interface Props {
+  activeFilter?: string;
+}
+
+const { activeFilter } = Astro.props;
+
+const allGenres = [...new Set(photos.flatMap(p => p.genres))];
+---
+<div id="genre-filters" class="flex flex-wrap justify-start gap-x-4 gap-y-2 mb-8">
+  <button data-genre="featured" class:list={["filter-btn", { active: !activeFilter }]}>Featured</button>
+  {allGenres.map(genre => (
+    <button data-genre={genre.toLowerCase()} class:list={["filter-btn", { active: activeFilter === genre.toLowerCase() }]}>{genre}</button>
+  ))}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterContainer = document.querySelector('#genre-filters');
+    if (!filterContainer) return;
+
+    filterContainer.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName !== 'BUTTON') return;
+
+      const genre = target.dataset.genre;
+      if (!genre) return;
+
+      // Dispatch a custom event with the selected genre.
+      // The page will listen for this to update the photo grid.
+      const filterChangeEvent = new CustomEvent('filterchange', {
+        detail: { genre }
+      });
+      document.dispatchEvent(filterChangeEvent);
+
+      // Update the active button state
+      filterContainer.querySelector('.active')?.classList.remove('active');
+      target.classList.add('active');
+    });
+  });
+</script>
+
+<style>
+  .filter-btn {
+    @apply bg-transparent border border-white text-white py-1 px-4 transition-colors duration-300;
+  }
+  .filter-btn:hover {
+    @apply bg-white text-black;
+  }
+  .filter-btn.active {
+    @apply bg-white text-black font-bold;
+  }
+</style> 

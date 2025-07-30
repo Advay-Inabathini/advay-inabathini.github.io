@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+import GenreFilters from '../../components/GenreFilters.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
+import Slideshow from '../../components/Slideshow.astro';
+import { photos } from '../../data/photographyPhotos.js';
+import selfPortrait from '/src/assets/images/self-portrait.jpg';
+
+export async function getStaticPaths() {
+  const allGenres = [...new Set(photos.flatMap(p => p.genres))];
+
+  const genrePaths = allGenres.map(genre => {
+    return {
+      params: { genre: genre.toLowerCase() },
+    };
+  });
+
+  // Add the path for the main photography page
+  return [
+    { params: { genre: undefined } },
+    ...genrePaths
+  ];
+}
+
+// If the URL is /photography, genre will be undefined.
+// If the URL is /photography/sports, genre will be "sports".
+const { genre } = Astro.params;
+
+// Get all images processed by Astro
+const allImportedImages = await import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/photography/*.jpg'
+);
+
+// Create a new array of photos with the correct, browser-accessible src path
+const allPhotosWithPaths = await Promise.all(
+  photos.map(async (photo) => {
+    const importer = allImportedImages[photo.src];
+    if (importer) {
+      const resolvedImage = await importer();
+      return {
+        ...photo,
+        src: resolvedImage.default.src,
+      };
+    }
+    return photo;
+  })
+);
+
+const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Photography` : "Photography";
+---
+<MainLayout title={`${pageTitle} | Advay Inabathini`} description={`A collection of ${pageTitle} by Advay Inabathini.`}>
+  <div id="photography-page" class="bg-black text-white min-h-screen">
+    
+    <header class="container mx-auto px-4 md:px-8 py-16 md:py-24">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="font-mono text-left space-y-6 text-lg">
+          <div>
+            <p>Hello there,</p>
+            <p>I am Advay Inabathini</p>
+          </div>
+          <div class="space-y-4">
+            <p>
+              Photography has been a passion for me. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <p>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-center md:justify-end">
+          <Image
+            src={selfPortrait}
+            alt="A portrait of Advay Inabathini with his camera."
+            class="w-full max-w-sm"
+            widths={[200, 400, 800]}
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="py-8">
+      <div class="container mx-auto px-4 md:px-8">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">Photography Portfolio</h2>
+        <GenreFilters client:load activeFilter={genre} />
+      </div>
+      <div class="px-4 md:px-8">
+        <div id="photo-grid-wrapper">
+            <PhotoGrid photos={photos} activeFilter={genre} />
+        </div>
+      </div>
+    </main>
+    <Slideshow client:load photos={allPhotosWithPaths} />
+  </div>
+</MainLayout>
+
+<script define:vars={{ allPhotos: allPhotosWithPaths }}>
+  function updateGrid(genre) {
+    const photoGrid = document.querySelector('#photo-grid');
+    if (!photoGrid) return;
+
+    let filteredPhotos;
+    if (genre === 'featured') {
+      filteredPhotos = allPhotos.filter(p => p.isFeatured);
+    } else {
+      filteredPhotos = allPhotos.filter(p => p.genres.some(g => g.toLowerCase() === genre));
+    }
+    
+    photoGrid.innerHTML = '';
+
+    for (const photo of filteredPhotos) {
+      const btn = document.createElement('button');
+      btn.dataset.photoId = String(photo.id);
+      btn.className = 'photo-thumbnail-btn block mb-4 break-inside-avoid';
+      
+      const img = document.createElement('img');
+      img.src = photo.src;
+      img.alt = photo.alt;
+      img.className = 'w-full h-auto shadow-md';
+      
+      btn.appendChild(img);
+      photoGrid.appendChild(btn);
+    }
+  }
+
+  document.addEventListener('filterchange', (e) => {
+    const genre = e.detail.genre;
+    
+    // Check for View Transitions support
+    if (!document.startViewTransition) {
+      updateGrid(genre);
+      return;
+    }
+
+    // Use a View Transition to update the DOM
+    document.startViewTransition(() => updateGrid(genre));
+  });
+</script> 

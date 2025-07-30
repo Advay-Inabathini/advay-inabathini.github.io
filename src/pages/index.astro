@@ -1,0 +1,37 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PrimaryNav from '../components/PrimaryNav.astro';
+import LandingPageGrid from '../components/LandingPageGrid.astro';
+---
+<MainLayout 
+  title="Advay Inabathini | Portfolio" 
+  description="The official portfolio of Advay Inabathini, showcasing skills in photography, design, and technology."
+>
+  <div class="bg-black text-white">
+    <!-- 
+      Hero Section:
+      This section now uses a relative container to position the intro text and nav buttons independently.
+    -->
+    <section class="container mx-auto px-4 md:px-8 min-h-screen relative flex items-center justify-center">
+      <!-- IntroText -->
+      <div class="absolute top-32 left-32 font-mono text-lg space-y-2">
+        <p>Hello there,</p>
+        <p>I am Advay Inabathini..</p>
+        <p>I passionately partake in the following:</p>
+      </div>
+      
+      <!-- PrimaryNav -->
+      <div class="w-full max-w-3xl">
+        <PrimaryNav />
+      </div>
+    </section>
+
+    <!-- 
+      Grid Section:
+      A negative top margin is used to pull the grid up, creating the overlap effect.
+    -->
+    <section class="container mx-auto pb-16 -mt-36 relative">
+      <LandingPageGrid />
+    </section>
+  </div>
+</MainLayout>
