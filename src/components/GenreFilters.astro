@@ -17,7 +17,7 @@ const allGenres = [...new Set(photos.flatMap(p => p.genres))];
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function setupFilterListeners() {
     const filterContainer = document.querySelector('#genre-filters');
     if (!filterContainer) return;
 
@@ -39,7 +39,10 @@ const allGenres = [...new Set(photos.flatMap(p => p.genres))];
       filterContainer.querySelector('.active')?.classList.remove('active');
       target.classList.add('active');
     });
-  });
+  }
+
+  // Set up listeners immediately since this component uses client:load
+  setupFilterListeners();
 </script>
 
 <style>
