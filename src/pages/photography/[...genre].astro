@@ -97,6 +97,23 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
 </MainLayout>
 
 <script define:vars={{ allPhotos: allPhotosWithPaths }}>
+  function createSkeletonPlaceholder() {
+    const skeleton = document.createElement('div');
+    skeleton.className = 'block mb-4 break-inside-avoid';
+    
+    // Create skeleton with random height for masonry effect
+    const heights = ['h-48', 'h-56', 'h-64', 'h-72', 'h-80'];
+    const randomHeight = heights[Math.floor(Math.random() * heights.length)];
+    
+    skeleton.innerHTML = `
+      <div class="w-full ${randomHeight} bg-gray-800 animate-pulse shadow-md relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 animate-shimmer"></div>
+      </div>
+    `;
+    
+    return skeleton;
+  }
+
   function updateGrid(genre) {
     const photoGrid = document.querySelector('#photo-grid');
     if (!photoGrid) return;
@@ -108,21 +125,52 @@ const pageTitle = genre ? `${genre.charAt(0).toUpperCase() + genre.slice(1)} Pho
       filteredPhotos = allPhotos.filter(p => p.genres.some(g => g.toLowerCase() === genre));
     }
     
+    // Clear existing content
     photoGrid.innerHTML = '';
 
-    for (const photo of filteredPhotos) {
+    // Create skeleton placeholders immediately
+    const skeletons = [];
+    for (let i = 0; i < filteredPhotos.length; i++) {
+      const skeleton = createSkeletonPlaceholder();
+      skeletons.push(skeleton);
+      photoGrid.appendChild(skeleton);
+    }
+
+    // Load actual images and replace skeletons
+    filteredPhotos.forEach((photo, index) => {
       const btn = document.createElement('button');
       btn.dataset.photoId = String(photo.id);
-      btn.className = 'photo-thumbnail-btn block mb-4 break-inside-avoid';
+      btn.className = 'photo-thumbnail-btn block mb-4 break-inside-avoid opacity-0 transition-opacity duration-300';
       
       const img = document.createElement('img');
-      img.src = photo.src;
       img.alt = photo.alt;
       img.className = 'w-full h-auto shadow-md';
       
+      // Handle image loading
+      img.onload = () => {
+        // Replace skeleton with actual image
+        if (skeletons[index] && skeletons[index].parentNode) {
+          photoGrid.replaceChild(btn, skeletons[index]);
+          // Fade in the image
+          setTimeout(() => {
+            btn.classList.remove('opacity-0');
+          }, 50);
+        }
+      };
+      
+      img.onerror = () => {
+        // If image fails to load, still replace skeleton but with error state
+        if (skeletons[index] && skeletons[index].parentNode) {
+          btn.innerHTML = `<div class="w-full h-48 bg-gray-700 flex items-center justify-center text-gray-400">Failed to load</div>`;
+          photoGrid.replaceChild(btn, skeletons[index]);
+          btn.classList.remove('opacity-0');
+        }
+      };
+      
       btn.appendChild(img);
-      photoGrid.appendChild(btn);
-    }
+      // Set src last to trigger loading
+      img.src = photo.src;
+    });
   }
 
   document.addEventListener('filterchange', (e) => {
